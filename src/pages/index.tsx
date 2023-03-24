@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   LaptopOutlined,
   NotificationOutlined,
@@ -6,6 +6,8 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import DashboardTable from '../components/dashboard/table';
+import DashboardTable2 from '../components/dashboard/table2';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -41,6 +43,22 @@ const DashboardPage: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const [menuEvent, setMenuEvent] = useState('1');
+
+  const HandleMenuClick = (e: string) => {
+    console.log('pressed', e);
+    setMenuEvent(e);
+  };
+
+  const ReturnPage = () => {
+    if (menuEvent === '1') {
+      return <DashboardTable />;
+    } else if (menuEvent === '2') {
+      return <DashboardTable2 />;
+    } else {
+      return <DashboardTable />;
+    }
+  };
   return (
     <Layout>
       <Header className="header">
@@ -66,16 +84,15 @@ const DashboardPage: React.FC = () => {
               defaultOpenKeys={['sub1']}
               style={{ height: '100%' }}
               items={items2}
+              onClick={(e) => HandleMenuClick(e.key)}
             />
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
-            Content
+            {ReturnPage()}
           </Content>
         </Layout>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        Ant Design ©2023 Created by Ant UED
-      </Footer>
+      <Footer style={{ textAlign: 'center' }}>Design</Footer>
     </Layout>
   );
 };
